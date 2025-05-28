@@ -12,7 +12,7 @@ variable "load_balancer_type" {
 }
 
 variable "security_groups" {
-  type = list(string)
+  type = string
 }
 
 variable "subnet_ids" {

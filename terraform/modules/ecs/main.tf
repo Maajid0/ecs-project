@@ -57,7 +57,7 @@ resource "aws_ecs_service" "tm_service" {
 
   network_configuration {
     subnets         = var.ecs_subnet_ids
-    security_groups = [aws_security_group.ecs_sg.id]
+    security_groups = [var.ecs_security_group_ids]
     assign_public_ip = var.ecs_assign_public_ip
   }
 

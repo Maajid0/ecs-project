@@ -86,18 +86,13 @@ variable "ecs_desired_count" {
 
 variable "ecs_subnet_ids" {
   description = "List of subnet IDs for ECS service networking"
-  type        = list(string)
+  type        = list(string) 
 }
 
 variable "ecs_assign_public_ip" {
   description = "Whether to assign public IP to the task"
   type        = bool
   default     = false
-}
-
-variable "ecs_task_execution_role" {
-  description = "The ECS task execution role ARN or name"
-  type        = string
 }
 
 variable "ecs_task_execution_role_name" {
@@ -119,7 +114,7 @@ variable "alb_target_group_arn" {
 }
 
 variable "ecs_security_group_ids" {
-  type = list(string)
+  type = string
   description = "List of ECS security group IDs"
 }
 

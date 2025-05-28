@@ -1,9 +1,8 @@
-resource "aws_route53_zone" "main" {
-  name = var.domain_name
+data "aws_route53_zone" "selected" {
+  name         = var.domain_name
 }
-
 resource "aws_route53_record" "subdomain" {
-  zone_id = aws_route53_zone.main.zone_id
+  zone_id = data.aws_route53_zone.selected.id
   name    = var.domain_name
   type    = "A"
 

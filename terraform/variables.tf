@@ -100,15 +100,6 @@ variable "load_balancer_type" {
   type    = string
   default = "application"
 }
-
-variable "security_groups" {
-  type = list(string)
-}
-
-variable "subnet_ids" {
-  type = list(string)
-}
-
 variable "enable_deletion_protection" {
   type    = bool
   default = false
@@ -125,11 +116,6 @@ variable "target_group_port" {
 variable "target_group_protocol" {
   type = string
 }
-
-variable "vpc_id" {
-  type = string
-}
-
 variable "health_check_path" {
   type    = string
   default = "/"
@@ -275,11 +261,6 @@ variable "ecs_desired_count" {
   default     = 2
 }
 
-variable "ecs_subnet_ids" {
-  description = "List of subnet IDs for ECS service networking"
-  type        = list(string)
-}
-
 variable "ecs_assign_public_ip" {
   description = "Whether to assign public IP to the task"
   type        = bool
@@ -291,11 +272,6 @@ variable "ecs_task_execution_role_name" {
   type        = string
 }
 
-
-variable "ecs_security_group_ids" {
-  type = list(string)
-  description = "List of ECS security group IDs"
-}
 
 
 # Route53
