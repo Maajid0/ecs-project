@@ -1,7 +1,7 @@
 name: Build and Push Image to ECR
 
 on:
-  push:
+  workflow_dispatch:
 
 jobs:
   login-toaws:
