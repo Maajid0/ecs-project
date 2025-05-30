@@ -25,10 +25,8 @@ jobs:
           aws-region: ${{ secrets.REGION }}
 
       - name: Login to Public ECR
-        run: |
-          aws ecr-public get-login-password --region ${{ secrets.REGION }} \
-          | docker login --username AWS --password-stdin public.ecr.aws
-
+        uses: aws-actions/amazon-ecr-login@v2
+        
       - name: Build Docker Image
         run: |
           docker build -t tm-comp .
