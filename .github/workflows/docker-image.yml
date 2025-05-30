@@ -4,7 +4,8 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - test-actions
+      - main
+
 jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
