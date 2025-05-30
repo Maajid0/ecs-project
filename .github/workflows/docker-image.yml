@@ -30,13 +30,19 @@ jobs:
           docker build -t tm-comp .
           docker tag tm-comp:latest ${{ secrets.AWS_REPOSITORY }}/tm-comp:latest
 
-      - name: Scan Docker Image with Trivy
-        uses: aquasecurity/trivy-action@master
+      - name: Install Trivy
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -
+
+      - name: Scan Docker Image with Trivy and output SARIF
+        run: |
+          ./trivy image --format sarif --output trivy-results.sarif tm-comp:latest || true
+
+      - name: Upload Trivy SARIF report
+        uses: github/codeql-action/upload-sarif@v3
         with:
-          image-ref: tm-comp:latest
-          format: table
-          exit-code: 0
-          ignore-unfixed: true
+          sarif_file: trivy-results.sarif
+          wait-for-processing: true
 
       - name: Push Image to ECR
         run: |
