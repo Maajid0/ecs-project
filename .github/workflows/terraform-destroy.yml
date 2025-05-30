@@ -1,0 +1,68 @@
+name: Terraform Destroy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  terraform-destroy:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.REGION }}
+
+    defaults:
+      run:
+        working-directory: ./terraform
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.REGION }}
+
+      - name: Download terraform.tfvars from S3
+        run: aws s3 cp s3://terraform-state-tm-maajid/terraform.tfvars .
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.12.1
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Install TFLint
+        run: |
+          curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+
+      - name: Run TFLint and output SARIF report
+        run: |
+          tflint --format sarif --out tflint-results.sarif || true
+
+      - name: Upload TFLint SARIF report
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: tflint-results.sarif
+          wait-for-processing: true
+
+      - name: Install Checkov
+        run: pip install checkov
+
+      - name: Run Checkov and output SARIF
+        run: checkov -d ./terraform --output sarif > checkov-results.sarif
+
+      - name: Upload Checkov SARIF report
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: checkov-results.sarif
+          wait-for-processing: true
+
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve
