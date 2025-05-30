@@ -3,6 +3,9 @@ name: Terraform Plan
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - test-actions
 
 jobs:
   terraform-plan:
