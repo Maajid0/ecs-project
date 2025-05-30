@@ -28,7 +28,7 @@ variable "ecs_memory" {
 variable "ecs_container_image" {
   description = "The Docker image for the container (ECR repository URL + image tag)"
   type        = string
-  default     = "public.ecr.aws/h8u9a9y8/tm-comp:latest"
+  default     = "651706783426.dkr.ecr.eu-west-2.amazonaws.com/tm-comp"
 }
 
 variable "container_name" {
