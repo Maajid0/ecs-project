@@ -1,3 +1,4 @@
+
 name: Terraform Plan
 
 on:
@@ -28,7 +29,7 @@ jobs:
           aws-region: ${{ secrets.REGION }}
 
       - name: Download terraform.tfvars from S3
-        run: aws s3 cp s3://terraform-state-tm-maajid/terraform.tfvars .
+        run: aws s3 cp s3://terraform-state-tm-maajid/terraform.tfvars terraform.tfvars
 
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v1
@@ -38,13 +39,17 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
-      - name: Install TFLint
-        run: |
-          curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+      - name: Terraform Validate
+        run: terraform validate
 
-      - name: Run TFLint and output SARIF report
-        run: |
-          tflint --format sarif --out tflint-results.sarif || true
+      - name: Install and Run TFLint
+        uses: reviewdog/action-tflint@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-check
+          fail_on_error: false
+          filter_mode: nofilter
+          flags: "--format sarif --out tflint-results.sarif"
 
       - name: Upload TFLint SARIF report
         uses: github/codeql-action/upload-sarif@v3
@@ -52,11 +57,17 @@ jobs:
           sarif_file: tflint-results.sarif
           wait-for-processing: true
 
-      - name: Install Checkov
-        run: pip install checkov
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
 
-      - name: Run Checkov and output SARIF
-        run: checkov -d ./terraform --output sarif > checkov-results.sarif
+      - name: Run Checkov Scan
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: .
+          output_format: sarif
+          output_file_path: checkov-results.sarif
 
       - name: Upload Checkov SARIF report
         uses: github/codeql-action/upload-sarif@v3
