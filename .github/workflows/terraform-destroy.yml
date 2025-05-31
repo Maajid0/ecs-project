@@ -2,6 +2,9 @@ name: Terraform Destroy
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - test-actions
 
 jobs:
   terraform-destroy:
