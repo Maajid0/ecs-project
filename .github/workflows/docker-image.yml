@@ -1,0 +1,50 @@
+name: Build and Push Image to ECR
+
+on:
+  workflow_dispatch:
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+
+    permissions:
+      security-events: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.REGION }}
+
+      - name: Login to Public ECR
+        uses: aws-actions/amazon-ecr-login@v2
+        
+      - name: Build Docker Image
+        run: |
+          docker build -t tm-comp .
+          docker tag tm-comp:latest ${{ secrets.AWS_REPOSITORY }}/tm-comp:latest
+
+      - name: Scan Image with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: tm-comp:latest
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.REGION }}
+
+      - name: Upload Trivy Scan Results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: trivy-results.sarif
+          wait-for-processing: true
+
+      - name: Push Docker Image to ECR
+        run: docker push ${{ secrets.AWS_REPOSITORY }}/tm-comp:latest
