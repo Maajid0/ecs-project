@@ -48,7 +48,7 @@ jobs:
         run: terraform plan
 
       - name: Set up TFLint
-        uses: terraform-linters/setup-tflint@master
+        uses: terraform-linters/setup-tflint@v4
         with:
           tflint_version: latest
 
@@ -65,8 +65,8 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Install Checkov
-        run: pip install git+https://github.com/bridgecrewio/checkov.git@master
+      - name: Install Checkov from main branch
+        run: pip install git+https://github.com/bridgecrewio/checkov.git@main
 
       - name: Run Checkov with SARIF output
         run: |
