@@ -23,6 +23,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Dynamically create .tflint.hcl for TFLint AWS plugin configuration
+      - name: Create TFLint config dynamically
+        run: |
+          cat > .tflint.hcl <<EOF
+          plugin "aws" {
+            enabled = true
+            region  = "eu-west-2"
+          }
+          EOF
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -46,15 +56,20 @@ jobs:
 
       - name: Terraform Plan
         run: terraform plan
-      - name: Run TFLint
+
+      - name: Set up TFLint
         uses: terraform-linters/setup-tflint@v4
         with:
           tflint_version: latest
+
+      - name: Initialize TFLint plugins
+        run: tflint --init
 
       - name: Run TFLint with SARIF output
         run: |
           mkdir -p reports
           tflint --format sarif > reports/tflint.sarif
+
       - name: Set up Python for Checkov
         uses: actions/setup-python@v4
         with:
@@ -66,14 +81,15 @@ jobs:
       - name: Run Checkov with SARIF output
         run: |
           checkov -d . --output sarif > reports/checkov.sarif
+
       - name: Upload TFLint SARIF to GitHub
         uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: ./terraform/reports/tflint.sarif
+          sarif_file: ./reports/tflint.sarif
           category: tflint
 
       - name: Upload Checkov SARIF to GitHub
         uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: ./terraform/reports/checkov.sarif
+          sarif_file: ./reports/checkov.sarif
           category: checkov
