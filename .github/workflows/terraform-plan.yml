@@ -2,10 +2,6 @@ name: Terraform Plan with TFLint and Checkov
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - test-actions
-
 jobs:
   terraform-plan:
     runs-on: ubuntu-latest
