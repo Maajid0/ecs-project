@@ -59,7 +59,7 @@ jobs:
       - name: Set up TFLint
         uses: terraform-linters/setup-tflint@v4
         with:
-          tflint_version: latest
+          tflint_version: 0.43.0
 
       - name: Initialize TFLint plugins
         run: tflint --init
@@ -68,6 +68,13 @@ jobs:
         run: |
           mkdir -p reports
           tflint --format sarif > reports/tflint.sarif || true
+
+      - name: Validate TFLint SARIF
+        run: |
+          sudo apt-get update && sudo apt-get install -y jq
+          jq empty ./reports/tflint.sarif
+        continue-on-error: true
+        id: validate_tflint_sarif
 
       - name: Set up Python for Checkov
         uses: actions/setup-python@v4
@@ -83,9 +90,10 @@ jobs:
           checkov -d . --output sarif > reports/checkov.sarif || true
 
       - name: Upload TFLint SARIF to GitHub
+        if: steps.validate_tflint_sarif.outcome == 'success'
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: ./terraform/reports/tflint.sarif
+          sarif_file: ./reports/tflint.sarif
           category: tflint
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -93,7 +101,7 @@ jobs:
       - name: Upload Checkov SARIF to GitHub
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: ./terraform/reports/checkov.sarif
+          sarif_file: ./reports/checkov.sarif
           category: checkov
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
