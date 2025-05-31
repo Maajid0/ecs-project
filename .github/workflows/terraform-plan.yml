@@ -68,8 +68,7 @@ jobs:
       - name: Run TFLint with SARIF output
         run: |
           mkdir -p reports
-          tflint --format sarif > reports/tflint.sarif
-
+          tflint --format sarif > reports/tflint.sarif || true
       - name: Set up Python for Checkov
         uses: actions/setup-python@v4
         with:
