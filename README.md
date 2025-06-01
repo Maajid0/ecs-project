@@ -12,7 +12,7 @@ The application runs in a Docker container hosted on ECS Fargate. Infrastructure
 
 ### Architecture Diagram:
 
-![alt text](<Architecture Diagram.gif>)
+![alt text](./images/Architecture%20Diagram.gif)
 
 ---
 
@@ -41,25 +41,24 @@ serve -s build
 
 ## Key Components
 
-### Docker
-- A `Dockerfile` in the root directory defines how the application is built into a container.
+- ### Docker
+    - A `Dockerfile` in the root directory defines how the application is built into a container.
 
-### Terraform
-- ECS Fargate for hosting the container.
-- Application Load Balancer for routing traffic.
-- Route 53 for domain management.
-- ACM for SSL certificates.
-- Security groups to control access.
-- VPC with public subnets, internet gateway, and NAT gateway.
-- Remote state stored in an S3 bucket using native state locking.
+- ### Terraform
+    - ECS Fargate for hosting the container.
+    - Application Load Balancer for routing traffic.
+    - Route 53 for domain management.
+    - ACM for SSL certificates.
+    - Security groups to control access.
+    - VPC with public subnets, internet gateway, and NAT gateway.
+    - Remote state stored in an S3 bucket using native state locking.
 
-### CI/CD
-GitHub Actions handles:
+- ### CI/CD
 
-- Building and scanning the Docker image.
-- Pushing the image to Amazon ECR.
-- Running Terraform plan and apply.
-- Destroying infrastructure if needed.
+    - Building and scanning the Docker image.
+    - Pushing the image to Amazon ECR.
+    - Running Terraform plan and apply.
+    - Destroying infrastructure if needed.
 
 ---
 
@@ -122,20 +121,19 @@ GitHub Actions handles:
 
 ### SSL Certificate
 
-![alt text](<SSL Certificate.png>)
+![alt text](./images/SSL%20Certificate.png)
 
 ### Github Actions Docker Build
 
-![alt text](<Docker Build.png>)
+![alt text](./images/Docker%20Build.pngg>)
 
 ### Github Actions Terraform Plan
 
-![alt text](<Terraform Plan.png>)
+![alt text](./images/Terraform%20Plan.png)
 
 ### Github Actions Terraform Apply
 
-![alt text](<Terraform Apply.png>)
-
+![alt text](./images/Terraform%20Apply.png)
 ### Github Actions Terraform Destroy
 
-![alt text](<Terraform Destroy.png>)
+![alt text](./images/Terraform%20Destroy.png)
