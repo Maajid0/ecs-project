@@ -64,6 +64,7 @@ serve -s build
 
 ## Directory Structure
 
+```bash
 ./
 ├── app/
 │ ├── Dockerfile
@@ -83,41 +84,45 @@ serve -s build
 ├── terraform-plan.yml
 ├── terraform-apply.yml
 └── terraform-destroy.yml
-
+```
 ---
 
 ## Deployment Workflow
 
-### 1. Docker Build and Push
-- Builds the Docker image.
-- Runs a security scan using Trivy.
-- Pushes the image to Amazon ECR.
+- ### 1. Docker Build and Push
 
-### 2. Terraform Plan
-- Runs `terraform init` and `terraform plan`.
-- Validates the configuration using TFLint.
-- Scans for security issues using Checkov.
+    - Builds the Docker image.
+    - Runs a security scan using Trivy.
+    - Pushes the image to Amazon ECR.
 
-### 3. Terraform Apply
-- Applies the Terraform configuration to provision or update resources.
-- Deploys the ECS service, ALB, Route 53 records, and ACM certificate.
+- ### 2. Terraform Plan
 
-### 4. Terraform Destroy
-- Destroys all Terraform-managed infrastructure when no longer needed.
+    - Runs `terraform init` and `terraform plan`.
+    - Validates the configuration using TFLint.
+    - Scans for security issues using Checkov.
+
+- ### 3. Terraform Apply
+    
+    - Applies the Terraform configuration to provision or update resources.
+    - Deploys the ECS service, ALB, Route 53 records, and ACM certificate.
+
+- ### 4. Terraform Destroy
+
+    - Destroys all Terraform-managed infrastructure when no longer needed.
 
 ---
 
-## How to Use
+- ## How to Use
 
-1. These workflows use **workflow dispatch**, so they are manually triggered from the "Actions" tab on GitHub.
-2. Follow the logs in the Actions tab to monitor progress.
-3. Once deployed, access the app via the configured domain.
+    1. These workflows use **workflow dispatch**, so they are manually triggered from the "Actions" tab on GitHub.
+    2. Follow the logs in the Actions tab to monitor progress.
+    3. Once deployed, access the app via the configured domain.
 
 ## Here is a quick demonstration:
 
 ### Domain Page
 
-![alt text](<Threat Modelling Homepage.png>)
+![alt text](./images/Threat%20Modelling%20Homepage.png)
 
 ### SSL Certificate
 
