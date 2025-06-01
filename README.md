@@ -67,23 +67,23 @@ serve -s build
 ```bash
 ./
 ├── app/
-│ ├── Dockerfile
+│  ├── Dockerfile
 ├── terraform/
-│ ├── backend.tf
-│ ├── main.tf
-│ ├── provider.tf
-│ ├── variables.tf
-│ └── modules/
-│ ├── alb/
-│ ├── ecs/
-│ ├── network/
-│ └── route53/
+│  ├── backend.tf
+│  ├── main.tf
+│  ├── provider.tf
+│  ├── variables.tf
+│  └── modules/
+│      ├── alb/
+│      ├── ecs/
+│      ├── network/
+│      └── route53/
 └── .github/
-└── workflows/
-├── docker-build.yml
-├── terraform-plan.yml
-├── terraform-apply.yml
-└── terraform-destroy.yml
+   └── workflows/
+       ├── docker-build.yml
+       ├── terraform-plan.yml
+       ├── terraform-apply.yml
+       └── terraform-destroy.yml
 ```
 ---
 
