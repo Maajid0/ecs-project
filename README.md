@@ -53,7 +53,7 @@ serve -s build
     - VPC with public subnets, internet gateway, and NAT gateway.
     - Remote state stored in an S3 bucket using native state locking.
 
-- ### CI/CD
+- ### CI/CD (GitHub Actions)
 
     - Building and scanning the Docker image.
     - Pushing the image to Amazon ECR.
@@ -128,18 +128,18 @@ serve -s build
 
 ![alt text](./images/SSL%20Certificate.png)
 
-### Github Actions Docker Build
+### GitHub Actions Docker Build
 
 ![alt text](./images/Docker%20Build.png)
 
-### Github Actions Terraform Plan
+### GitHub Actions Terraform Plan
 
 ![alt text](./images/Terraform%20Plan.png)
 
-### Github Actions Terraform Apply
+### GitHub Actions Terraform Apply
 
 ![alt text](./images/Terraform%20Apply.png)
 
-### Github Actions Terraform Destroy
+### GitHub Actions Terraform Destroy
 
 ![alt text](./images/Terraform%20Destroy.png)
