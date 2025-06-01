@@ -25,7 +25,7 @@ jobs:
         
       - name: Build Docker Image
         run: |
-          docker build -t tm-comp .
+          docker build -t tm-comp ./app
           docker tag tm-comp:latest ${{ secrets.AWS_REPOSITORY }}/tm-comp:latest
 
       - name: Scan Image with Trivy
