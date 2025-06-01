@@ -46,15 +46,6 @@ module "alb" {
   certificate_arn = module.acm.certificate_arn
 }
 
-
-output "alb_dns" {
-  value = module.alb.alb_dns_name
-}
-
-output "alb_arn" {
-  value = module.alb.alb_arn
-}
-
 # ECS
 
 module "ecs" {
