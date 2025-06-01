@@ -65,6 +65,7 @@ GitHub Actions handles:
 
 ## Directory Structure
 
+```bash
 ./
 ├── app/
 │ ├── Dockerfile
@@ -84,7 +85,7 @@ GitHub Actions handles:
 ├── terraform-plan.yml
 ├── terraform-apply.yml
 └── terraform-destroy.yml
-
+```
 ---
 
 ## Deployment Workflow
