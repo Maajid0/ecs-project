@@ -128,9 +128,9 @@ serve -s build
 
 ![alt text](./images/SSL%20Certificate.png)
 
-### Github Actions Docker Build
+### Github Actions Docker Build
 
-![alt text](./images/Docker%20Build.pngg>)
+![alt text](./images/Docker%20Build.png)
 
 ### Github Actions Terraform Plan
 
@@ -139,6 +139,7 @@ serve -s build
 ### Github Actions Terraform Apply
 
 ![alt text](./images/Terraform%20Apply.png)
+
 ### Github Actions Terraform Destroy
 
 ![alt text](./images/Terraform%20Destroy.png)
