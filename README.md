@@ -42,7 +42,7 @@ serve -s build
 ## Key Components
 
 - ### Docker
-    - A `Dockerfile` in the root directory defines how the application is built into a container.
+    - A `Dockerfile` in the app directory defines how the application is built into a container.
 
 - ### Terraform
     - ECS Fargate for hosting the container.
@@ -114,9 +114,9 @@ serve -s build
 
 - ## How to Use
 
-    1. These workflows use **workflow dispatch**, so they are manually triggered from the "Actions" tab on GitHub.
-    2. Follow the logs in the Actions tab to monitor progress.
-    3. Once deployed, access the app via the configured domain.
+    - These workflows use **workflow dispatch**, so they are manually triggered from the "Actions" tab on GitHub.
+    - Follow the logs in the Actions tab to monitor progress.
+    - Once deployed, access the app via the configured domain.
 
 ## Here is a quick demonstration:
 
