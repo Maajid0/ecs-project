@@ -75,31 +75,31 @@ resource "aws_security_group" "sg" {
   vpc_id      = aws_vpc.main.id
 
   ingress {
-    from_port   = 3000
-    to_port     = 3000
+    from_port   = var.app_from_port
+    to_port     = var.app_to_port
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.ingress_cidr_block]
   }
 
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.ingress_cidr_block]
   }
 
   ingress {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.ingress_cidr_block]
   }
 
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.egress_cidr_block]
   }
 
   tags = {

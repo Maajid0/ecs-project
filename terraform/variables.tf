@@ -60,7 +60,6 @@ variable "security_group_name" {
   default     = "ecs-sg"
 }
 
-
 variable "security_group_description" {
   type = string
   description = "Description of the security group"
@@ -84,6 +83,15 @@ variable "subnet3_availability_zone" {
 variable "igw_name" {
   type = string
   description = "The name of the internet gateway"
+}
+variable "app_from_port" {
+  type = number
+  description = "The starting port in the allowed port range."
+}
+
+variable "app_to_port" {
+  type = number
+  description = "The ending port in the allowed port range."
 }
 
 # ALB
@@ -271,8 +279,17 @@ variable "ecs_task_execution_role_name" {
   description = "Name of the ECS task execution role"
   type        = string
 }
+variable "ingress_cidr_block" {
+  type        = string
+  description = "CIDR block for ingress traffic"
+  default     = "0.0.0.0/0"
+}
 
-
+variable "egress_cidr_block" {
+  type        = string
+  description = "CIDR block for egress traffic"
+  default     = "0.0.0.0/0"
+}
 
 # Route53
 

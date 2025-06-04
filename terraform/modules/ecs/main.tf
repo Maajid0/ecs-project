@@ -29,7 +29,7 @@ resource "aws_ecs_task_definition" "tm_comp" {
 }
 
 resource "aws_security_group" "ecs_sg" {
-  name        = "ecs_sg"
+  name        = var.security_group_name
   description = "Security group for ECS service"
   vpc_id      = var.vpc_id
 
@@ -37,14 +37,14 @@ resource "aws_security_group" "ecs_sg" {
     from_port   = var.ecs_container_port
     to_port     = var.ecs_container_port
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.ingress_cidr_block]
   }
 
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.egress_cidr_block]
   }
 }
 

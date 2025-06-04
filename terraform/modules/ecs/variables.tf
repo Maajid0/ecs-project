@@ -122,3 +122,20 @@ variable "ecs_launch_type" {
   type = string
   description = "The launch type used for the ECS Service"
 }
+
+variable "ingress_cidr_block" {
+  type        = string
+  description = "CIDR block for ingress traffic"
+  default     = "0.0.0.0/0"
+}
+
+variable "egress_cidr_block" {
+  type        = string
+  description = "CIDR block for egress traffic"
+  default     = "0.0.0.0/0"
+}
+
+variable "security_group_name" {
+  type = string
+  description = "Name of the security group"
+}

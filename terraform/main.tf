@@ -18,6 +18,8 @@ module "networking" {
   subnet2_availability_zone = var.subnet2_availability_zone
   subnet3_availability_zone = var.subnet3_availability_zone
   igw_name = var.igw_name
+  app_from_port = var.app_from_port
+  app_to_port = var.app_to_port
 }
 
 # ALB
@@ -70,11 +72,13 @@ module "ecs" {
   ecs_assign_public_ip         = var.ecs_assign_public_ip
   ecs_task_execution_role_name = var.ecs_task_execution_role_name
   ecs_security_group_ids       = module.networking.security_group_id
-  alb_target_group_arn        = module.alb.target_group_arn
-  alb_listener_arn            = module.alb.listener_arn
-  vpc_id                      = module.networking.vpc_id
+  alb_target_group_arn         = module.alb.target_group_arn
+  alb_listener_arn             = module.alb.listener_arn
+  vpc_id                       = module.networking.vpc_id
+  ingress_cidr_block = var.ingress_cidr_block
+  egress_cidr_block = var.egress_cidr_block
+  security_group_name = var.security_group_name
 }
-
 
 # Route53
 
@@ -86,7 +90,6 @@ module "route53" {
 }
 
 # ACM
-
 module "acm" {
   source                    = "./modules/acm"
   acm_domain_name           = var.acm_domain_name
